@@ -14,6 +14,8 @@
     
     <!-- Local CSS -->
 	<link rel="stylesheet" href="styles.css">
+	<!-- Local JS -->
+	<script src="index.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -34,7 +36,7 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="blog.html">Blog</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<!-- <li><a href="#contact">Contact</a></li> -->
                 </ul>
             </div>
         </div>
@@ -44,9 +46,9 @@
     <section id="home" class="jumbotron">
         <div class="container text-center">
             <h1 class="display-4">Kevin Sony</h1>
-            <p class="lead">Backend Developer</p>
-            <a class="btn btn-primary btn-lg" href="#projects" role="button">View My Work</a>
-            <a class="btn btn-outline btn-lg" href="#contact" role="button" style="margin-left: 10px; background: transparent; border: 2px solid white; color: white;">Get In Touch</a>
+            <p class="lead">Software Engineer</p>
+            <a class="btn btn-primary btn-lg" href="#projects" role="button">View Projects</a>
+            <a class="btn btn-outline btn-lg" href="blog/blog_main.html" role="button" style="margin-left: 10px; background: transparent; border: 2px solid white; color: white;">Read my Blog</a>
         </div>
     </section>
 
@@ -61,7 +63,7 @@
             </div>
             <div class="row" style="margin-top: 40px;">
                 <div class="col-lg-4 text-center">
-                    <img src="https://via.placeholder.com/250x250/667eea/ffffff?text=Kevin" class="img-circle" alt="Kevin Sony" style="width: 250px; height: 250px;">
+                    <img src="img/kevin-headshot.jpg" class="img-circle" alt="Kevin Sony" style="width: 250px; height: 250px;">
                 </div>
                 <div class="col-lg-8">
                     <h3>Hello! I'm Kevin Sony</h3>
@@ -116,7 +118,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact Section 
     <section id="contact" class="section-padding" style="background-color: #05111e;">
         <div class="container">
             <div class="row">
@@ -126,15 +128,15 @@
             </div>
             <div class="row" style="margin-top: 40px;">
                 <div class="col-md-6 col-md-offset-3">
-                    <form>
+                    <form id="contact_form" action="javascript:handleSubmit()">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Name" required>
+                            <input id="person-name" type="text" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Your Email" required>
+                            <input id="person-email" type="email" class="form-control" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            <textarea id="message-to-send" class="form-control" rows="5" placeholder="Your Message" required></textarea>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
@@ -155,21 +157,10 @@
             </div>
         </div>
     </section>
-
+	-->
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
-    <script>
-        $(document).ready(function() {
-            // 
-            $('form').submit(function(e) {
-                e.preventDefault();
-                alert('Thank you for your message! I\'ll get back to you soon.');
-                this.reset();
-            });
-        });
-    </script>
 </body>
 </html>
