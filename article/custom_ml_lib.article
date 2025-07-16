@@ -1,0 +1,90 @@
+
+\TITLE Custom ML Library
+
+\\ Auto generate Table of Contents
+
+\HEAD3 Introduction
+
+The goal of this project is to apply the knowledge learned in my math and cs degree into machine learning, particularly deep learning.
+The best way to do so is to simply create a dynamic library which contains the functions necessary for other programs to utilize it.
+It is a dynamic library rather than a static library so that a Python wrapper can be easily created for it.
+
+\HEAD3 Library Goals and Requirements
+
+The library is a dynamic library, mainly so that wrappers in Python and Java can be utilized, while still getting the efficiency of C code.
+The C interface will be simple and easy to understand, making it easier to integrate it into other projects. With that said and done, let us get started.
+
+\HEAD3 Machine Learning Algorithms
+
+The basic premise of machine learning algorithms is for some given inputs, we want to find out some information from this output, whether it be a classification or a prediction. Specifically, machine learning algorithms  construct a function \(f\) that should take in an input \(x\) from a specific input space, and return the \(y\) we expect to see.
+For example, if we wanted to classify images as animals, humans, cars, and other objects, the function's domain is the space of images of all the objects that are in the classifier, and the function's range is a probability vector, containing the probabilities it is any one of the specified objects. So if we pass in an image of a dog, we want our neural network to return a vector indicating the object in the image has a high probability of being a dog, and a low probability of being anything else in the classifier.
+To be able to construct such a function, we first need to find some data to construct it from. From there, we check its validity by testing on other data not used to construct it.
+
+\HEAD3 Artificial Neural Networks
+
+ANNs construct the function \( f \) through applying affine then nonlinear transformations multiple times.
+	
+We start with an input \( x^{(0)} \in \mathbb{R}^{m_0} \) (vectors are represented vertically), apply an affine transformation to get \( z^{(1)} \in \mathbb{R}^{m_1} \) and nonlinear transform to turn it to an output \( y^{(1)} \in \mathbb{R}^{m_1} \). This then becomes the new input \( x^{(1)} = y^{(1)} \). By applying this transformation \(n\) times, we get the output \( y^{(n)} \in \mathbb{R}^{m_n} \). In other words,
+\begin{gather*}
+	y^{(1)} = a^{(1)}(W^{(1)} x^{(0)} + b^{(1)}) \\
+	y^{(2)} = a^{(2)}(W^{(2)} x^{(1)} + b^{(2)}) \\
+	\vdots \\
+	y^{(n)} = a^{(n)}(W^{(n)} x^{(n-1)} + b^{(n)})
+\end{gather*}
+where \( W^{(1)}, \cdots, W^{(n)} \) are weights, \( b^{(1)}, \cdots, b^{(n)} \) are biases, and \( a^{(1)}, \cdots, a^{(n)} \) are nonlinear "activation" functions. This implicitly defines a function \( \hat{f} \), where \(\hat{f}(x_1) = y_n \). 	
+It doesn't do much good to simply have a function \( \hat{f} \). We want \( y^{(n)} \) to equal a true value \( t \), i.e. we want to find a function \( f \) such that \( f(x^{(0)}) = t \). If \( \hat{f} = f \), we are done, but if not, we need to modify \( \hat{f} \) to get closer to \( f \), and this is done by modifying its parameters, the weights and biases. 
+There are several ways to solve for the optimal weights, and all of them involve trying to minimize a loss function \( L \) that takes in \( y^{(n)} \) and \( t \) and computers a measure of how far off the two vectors are. From there, one can either try minimizing the loss function through various methods such as gradient descent or Newton's method. They each have various trade-offs. Newton's method converges quadratically, but it requires convexity (at the very least, local convexity if not global), and the Hessian can be quite computationally expensive to compute. Gradient descent converges linearly, but it is much cheaper to compute gradients.
+
+\HEAD3 Backpropagation via Gradient Descent
+
+Different loss functions are optimal for different tasks (cross-entropy for classification, mean square error for regression). Gradient descent is frequently employed to solve for the optimal weights and biases. The various gradients of the loss function with respect to many the weights and biases are used to update said weights and biases.
+	
+To derive the gradients necessary to update the weights and biases, we must first start off with an appropriate loss function, \( L \). The derivative of \( L \) with respect to \( y^{(n)} \) is
+\begin{gather*}
+    \dfrac{\partial L}{\partial y^{(n)}} = \nabla_{y^{(n)}}L 
+    =
+    \begin{bmatrix}
+        \dfrac{\partial L}{\partial y^{(n)}_1} \\ \\
+        \dfrac{\partial L}{\partial y^{(n)}_2} \\
+        \vdots \\ \\
+        \dfrac{\partial L}{\partial y^{(n)}_{m_n}}
+    \end{bmatrix}
+\end{gather*}
+Let \(z^{(n)} = W^{(n)} x^{(n-1)} + b^{(n)} \). Then \( y^{(n)} = a^{(n)}(z^{(n)}) \). Note that because the activation function \( a_n \) is applied to each entry individually, each entry in the inputs for \( a_n \) is independent of the other. In other words, it is a diagonal matrix.
+\begin{gather*}
+    \dfrac{\partial y^{(n)}}{\partial z^{(n)}} = \text{diag} \left( \dfrac{\partial y^{(n)}_1}{\partial z^{(n)}_1}, \cdots, \dfrac{\partial y^{(n)}_{m_n}}{\partial z^{(n)}_{m_n}}  \right)
+\end{gather*}
+We also know that
+\begin{gather*}
+    \dfrac{\partial z^{(n)}}{\partial W^{(n)}} = x^{(n - 1)} \\
+    \dfrac{\partial z^{(n)}}{\partial b^{(n)}} = I
+\end{gather*}
+Combining the results, we get
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial W^{(n)}} = 
+    \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L  \left( x^{(n - 1)} \right)^T  \\ \\
+    \dfrac{\partial L}{\partial b^{(n)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial b^{(n)}} = \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L
+\end{gather*}
+
+Finally, we look at how \( x^{(n - 1)} \) "changes", since it is also the output to the previous layers, and seeing how to change it will result in changes propagating outwards
+
+\begin{gather*}
+    \dfrac{\partial L}{\partial x^{(n - 1)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial x^{(n - 1)}} = \left( W^{(n)} \right)^T \left( \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L  \right)
+\end{gather*}
+
+We can generalize this result to the inner layer weights and layers
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial z^{(i)}}{\partial W^{(i)}} =	
+    \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \left( x^{(i - 1)} \right)^T  \\ \\		
+    \dfrac{\partial L}{\partial b^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial z^{(i)}}{\partial b^{(i)}} = \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \\ \\
+    \dfrac{\partial L}{\partial x^{(i - 1)}} = \dfrac{\partial L}{\partial y^{(i)}} \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial z^{(i)}}{\partial x^{(i - 1)}} = \left( W^{(i)} \right)^T \left( \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \right) 
+\end{gather*}
+
+Note that \( x^{(i)} = y^{(i)} \), and so
+\begin{gather*}
+    \dfrac{\partial L}{\partial x^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} = \nabla_{y^{(i)}} L
+\end{gather*}
+
+\HEAD3 Conclusion
+
+
