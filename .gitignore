@@ -1,4 +1,5 @@
 example.html
 example*
-blog/article.html
-blog/blog.html
+blog/article_template.html
+blog/blog_template.html
+blog/*
