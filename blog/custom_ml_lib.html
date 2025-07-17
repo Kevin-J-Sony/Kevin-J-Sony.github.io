@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Title - Kevin Sony Blog</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+	<link rel="stylesheet" href="articles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Kevin Sony</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#skills">Skills</a></li>
+                    <li><a href="index.html#projects">Projects</a></li>
+                    <li class="active"><a href="blog.html">Articles</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <h1>Custom ML Library</h1>
+            <div class="article-meta">
+                <i class="fa fa-calendar"></i> July 17, 2025 
+                <i class="fa fa-user"></i> Kevin Sony
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-container">
+        <div class="container">
+            <div class="row">
+                <!-- Main Content -->
+                <div class="col-md-10 col-md-offset-1">
+                    <a href="blog.html" class="back-to-blog">
+                        <i class="fa fa-arrow-left"></i> Back to Blog
+                    </a>
+                    
+                    <article class="article-content">
+                        <!-- Featured Image -->
+                        <img src="[IMAGE TO PUT]" alt="[IMAGE DESCRIPTION]" class="article-featured-image">
+                        
+                        <!-- Table of Contents -->
+                        <div class="table-of-contents">
+                            <h4><i class="fa fa-list"></i> Table of Contents</h4>
+                            <ul><li><a href="#introduction">Introduction</a></li><li><a href="#librarygoalsandrequirements">Library Goals and Requirements</a></li><li><a href="#machinelearningalgorithms">Machine Learning Algorithms</a></li><li><a href="#artificialneuralnetworks">Artificial Neural Networks</a></li><li><a href="#backpropagationviagradientdescent">Backpropagation via Gradient Descent</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+                        </div>
+
+
+                        <!-- Article Content -->
+                        <h2 id="introduction">Introduction</h2><p>The goal of this project is to apply the knowledge learned in my math and cs degree into machine learning, particularly deep learning. The best way to do so is to simply create a dynamic library which contains the functions necessary for other programs to utilize it. It is a dynamic library rather than a static library so that a Python wrapper can be easily created for it.</p><h2 id="librarygoalsandrequirements">Library Goals and Requirements</h2><p>The library is a dynamic library, mainly so that wrappers in Python and Java can be utilized, while still getting the efficiency of C code. The C interface will be simple and easy to understand, making it easier to integrate it into other projects. With that said and done, let us get started.</p><h2 id="machinelearningalgorithms">Machine Learning Algorithms</h2><p>The basic premise of machine learning algorithms is for some given inputs, we want to find out some information from this output, whether it be a classification or a prediction. Specifically, machine learning algorithms  construct a function \(f\) that should take in an input \(x\) from a specific input space, and return the \(y\) we expect to see.
+For example, if we wanted to classify images as animals, humans, cars, and other objects, the function's domain is the space of images of all the objects that are in the classifier, and the function's range is a probability vector, containing the probabilities it is any one of the specified objects. So if we pass in an image of a dog, we want our neural network to return a vector indicating the object in the image has a high probability of being a dog, and a low probability of being anything else in the classifier.
+To be able to construct such a function, we first need to find some data to construct it from. From there, we check its validity by testing on other data not used to construct it.</p><h2 id="artificialneuralnetworks">Artificial Neural Networks</h2><p>ANNs construct the function \( f \) through applying affine then nonlinear transformations multiple times.
+
+We start with an input \( x^{(0)} \in \mathbb{R}^{m_0} \) (vectors are represented vertically), apply an affine transformation to get \( z^{(1)} \in \mathbb{R}^{m_1} \) and nonlinear transform to turn it to an output \( y^{(1)} \in \mathbb{R}^{m_1} \). This then becomes the new input \( x^{(1)} = y^{(1)} \). By applying this transformation \(n\) times, we get the output \( y^{(n)} \in \mathbb{R}^{m_n} \). In other words,
+\begin{gather*}
+	y^{(1)} = a^{(1)}(W^{(1)} x^{(0)} + b^{(1)}) \\
+	y^{(2)} = a^{(2)}(W^{(2)} x^{(1)} + b^{(2)}) \\
+	\vdots \\
+	y^{(n)} = a^{(n)}(W^{(n)} x^{(n-1)} + b^{(n)})
+\end{gather*}
+where \( W^{(1)}, \cdots, W^{(n)} \) are weights, \( b^{(1)}, \cdots, b^{(n)} \) are biases, and \( a^{(1)}, \cdots, a^{(n)} \) are nonlinear "activation" functions. This implicitly defines a function \( \hat{f} \), where \(\hat{f}(x_1) = y_n \). 	
+It doesn't do much good to simply have a function \( \hat{f} \). We want \( y^{(n)} \) to equal a true value \( t \), i.e. we want to find a function \( f \) such that \( f(x^{(0)}) = t \). If \( \hat{f} = f \), we are done, but if not, we need to modify \( \hat{f} \) to get closer to \( f \), and this is done by modifying its parameters, the weights and biases. 
+There are several ways to solve for the optimal weights, and all of them involve trying to minimize a loss function \( L \) that takes in \( y^{(n)} \) and \( t \) and computers a measure of how far off the two vectors are. From there, one can either try minimizing the loss function through various methods such as gradient descent or Newton's method. They each have various trade-offs. Newton's method converges quadratically, but it requires convexity (at the very least, local convexity if not global), and the Hessian can be quite computationally expensive to compute. Gradient descent converges linearly, but it is much cheaper to compute gradients.</p><h2 id="backpropagationviagradientdescent">Backpropagation via Gradient Descent</h2><p>Different loss functions are optimal for different tasks (cross-entropy for classification, mean square error for regression). Gradient descent is frequently employed to solve for the optimal weights and biases. The various gradients of the loss function with respect to many the weights and biases are used to update said weights and biases.
+	
+To derive the gradients necessary to update the weights and biases, we must first start off with an appropriate loss function, \( L \). The derivative of \( L \) with respect to \( y^{(n)} \) is
+\begin{gather*}
+    \dfrac{\partial L}{\partial y^{(n)}} = \nabla_{y^{(n)}}L 
+    =
+    \begin{bmatrix}
+        \dfrac{\partial L}{\partial y^{(n)}_1} \\ \\
+        \dfrac{\partial L}{\partial y^{(n)}_2} \\
+        \vdots \\ \\
+        \dfrac{\partial L}{\partial y^{(n)}_{m_n}}
+    \end{bmatrix}
+\end{gather*}
+Let \(z^{(n)} = W^{(n)} x^{(n-1)} + b^{(n)} \). Then \( y^{(n)} = a^{(n)}(z^{(n)}) \). Note that because the activation function \( a_n \) is applied to each entry individually, each entry in the inputs for \( a_n \) is independent of the other. In other words, it is a diagonal matrix.
+\begin{gather*}
+    \dfrac{\partial y^{(n)}}{\partial z^{(n)}} = \text{diag} \left( \dfrac{\partial y^{(n)}_1}{\partial z^{(n)}_1}, \cdots, \dfrac{\partial y^{(n)}_{m_n}}{\partial z^{(n)}_{m_n}}  \right)
+\end{gather*}
+We also know that
+\begin{gather*}
+    \dfrac{\partial z^{(n)}}{\partial W^{(n)}} = x^{(n - 1)} \\
+    \dfrac{\partial z^{(n)}}{\partial b^{(n)}} = I
+\end{gather*}
+Combining the results, we get
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial W^{(n)}} = 
+    \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L  \left( x^{(n - 1)} \right)^T  \\ \\
+    \dfrac{\partial L}{\partial b^{(n)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial b^{(n)}} = \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L
+\end{gather*}
+
+Finally, we look at how \( x^{(n - 1)} \) "changes", since it is also the output to the previous layers, and seeing how to change it will result in changes propagating outwards
+
+\begin{gather*}
+    \dfrac{\partial L}{\partial x^{(n - 1)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial x^{(n - 1)}} = \left( W^{(n)} \right)^T \left( \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L  \right)
+\end{gather*}
+
+We can generalize this result to the inner layer weights and layers
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial z^{(i)}}{\partial W^{(i)}} =	
+    \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \left( x^{(i - 1)} \right)^T  \\ \\		
+    \dfrac{\partial L}{\partial b^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial z^{(i)}}{\partial b^{(i)}} = \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \\ \\
+    \dfrac{\partial L}{\partial x^{(i - 1)}} = \dfrac{\partial L}{\partial y^{(i)}} \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial z^{(i)}}{\partial x^{(i - 1)}} = \left( W^{(i)} \right)^T \left( \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \right) 
+\end{gather*}
+
+Note that \( x^{(i)} = y^{(i)} \), and so
+\begin{gather*}
+    \dfrac{\partial L}{\partial x^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} = \nabla_{y^{(i)}} L
+\end{gather*}</p><h2 id="conclusion">Conclusion</h2><p></p>
+                    </article>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>&copy; 2025 Kevin Sony. All rights reserved.</p>
+                    <div class="social-links" style="margin-top: 20px;">
+                        <a href="https://www.linkedin.com/in/kevin-sony-84625b295/"><i class="fa fa-linkedin"></i></a>
+                        <a href="https://github.com/Kevin-J-Sony"><i class="fa fa-github"></i></a>
+                        <a href="https://x.com/kevinsony2003"><i class="fa fa-twitter"></i></a>
+                        <a href="mailto:kevinsony2003@gmail.com"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Smooth scrolling for table of contents
+            $('.table-of-contents a').click(function(e) {
+                e.preventDefault();
+                var target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 100
+                    }, 500);
+                }
+            });
+
+            // Highlight current section in table of contents
+            $(window).scroll(function() {
+                var scrollDistance = $(window).scrollTop();
+                $('.article-content h2[id], .article-content h3[id]').each(function(i) {
+                    if ($(this).position().top <= scrollDistance + 150) {
+                        $('.table-of-contents a.active').removeClass('active');
+                        $('.table-of-contents a').eq(i).addClass('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

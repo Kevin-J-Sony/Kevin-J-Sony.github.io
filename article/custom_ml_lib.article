@@ -1,29 +1,24 @@
 
-\TITLE Custom ML Library
+\TITLE{Custom ML Library}
 
-\\ Auto generate Table of Contents
+\HEAD{Introduction}
 
-\HEAD3 Introduction
+The goal of this project is to apply the knowledge learned in my math and cs degree into machine learning, particularly deep learning. The best way to do so is to simply create a dynamic library which contains the functions necessary for other programs to utilize it. It is a dynamic library rather than a static library so that a Python wrapper can be easily created for it.
 
-The goal of this project is to apply the knowledge learned in my math and cs degree into machine learning, particularly deep learning.
-The best way to do so is to simply create a dynamic library which contains the functions necessary for other programs to utilize it.
-It is a dynamic library rather than a static library so that a Python wrapper can be easily created for it.
+\HEAD{Library Goals and Requirements}
 
-\HEAD3 Library Goals and Requirements
+The library is a dynamic library, mainly so that wrappers in Python and Java can be utilized, while still getting the efficiency of C code. The C interface will be simple and easy to understand, making it easier to integrate it into other projects. With that said and done, let us get started.
 
-The library is a dynamic library, mainly so that wrappers in Python and Java can be utilized, while still getting the efficiency of C code.
-The C interface will be simple and easy to understand, making it easier to integrate it into other projects. With that said and done, let us get started.
-
-\HEAD3 Machine Learning Algorithms
+\HEAD{Machine Learning Algorithms}
 
 The basic premise of machine learning algorithms is for some given inputs, we want to find out some information from this output, whether it be a classification or a prediction. Specifically, machine learning algorithms  construct a function \(f\) that should take in an input \(x\) from a specific input space, and return the \(y\) we expect to see.
 For example, if we wanted to classify images as animals, humans, cars, and other objects, the function's domain is the space of images of all the objects that are in the classifier, and the function's range is a probability vector, containing the probabilities it is any one of the specified objects. So if we pass in an image of a dog, we want our neural network to return a vector indicating the object in the image has a high probability of being a dog, and a low probability of being anything else in the classifier.
 To be able to construct such a function, we first need to find some data to construct it from. From there, we check its validity by testing on other data not used to construct it.
 
-\HEAD3 Artificial Neural Networks
+\HEAD{Artificial Neural Networks}
 
 ANNs construct the function \( f \) through applying affine then nonlinear transformations multiple times.
-	
+
 We start with an input \( x^{(0)} \in \mathbb{R}^{m_0} \) (vectors are represented vertically), apply an affine transformation to get \( z^{(1)} \in \mathbb{R}^{m_1} \) and nonlinear transform to turn it to an output \( y^{(1)} \in \mathbb{R}^{m_1} \). This then becomes the new input \( x^{(1)} = y^{(1)} \). By applying this transformation \(n\) times, we get the output \( y^{(n)} \in \mathbb{R}^{m_n} \). In other words,
 \begin{gather*}
 	y^{(1)} = a^{(1)}(W^{(1)} x^{(0)} + b^{(1)}) \\
@@ -35,7 +30,7 @@ where \( W^{(1)}, \cdots, W^{(n)} \) are weights, \( b^{(1)}, \cdots, b^{(n)} \)
 It doesn't do much good to simply have a function \( \hat{f} \). We want \( y^{(n)} \) to equal a true value \( t \), i.e. we want to find a function \( f \) such that \( f(x^{(0)}) = t \). If \( \hat{f} = f \), we are done, but if not, we need to modify \( \hat{f} \) to get closer to \( f \), and this is done by modifying its parameters, the weights and biases. 
 There are several ways to solve for the optimal weights, and all of them involve trying to minimize a loss function \( L \) that takes in \( y^{(n)} \) and \( t \) and computers a measure of how far off the two vectors are. From there, one can either try minimizing the loss function through various methods such as gradient descent or Newton's method. They each have various trade-offs. Newton's method converges quadratically, but it requires convexity (at the very least, local convexity if not global), and the Hessian can be quite computationally expensive to compute. Gradient descent converges linearly, but it is much cheaper to compute gradients.
 
-\HEAD3 Backpropagation via Gradient Descent
+\HEAD{Backpropagation via Gradient Descent}
 
 Different loss functions are optimal for different tasks (cross-entropy for classification, mean square error for regression). Gradient descent is frequently employed to solve for the optimal weights and biases. The various gradients of the loss function with respect to many the weights and biases are used to update said weights and biases.
 	
@@ -85,6 +80,6 @@ Note that \( x^{(i)} = y^{(i)} \), and so
     \dfrac{\partial L}{\partial x^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} = \nabla_{y^{(i)}} L
 \end{gather*}
 
-\HEAD3 Conclusion
+\HEAD{Conclusion}
 
 
