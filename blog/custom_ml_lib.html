@@ -69,7 +69,7 @@
                         <!-- Table of Contents -->
                         <div class="table-of-contents">
                             <h4><i class="fa fa-list"></i> Table of Contents</h4>
-                            <ul><li><a href="#introduction">Introduction</a></li><li><a href="#librarygoalsandrequirements">Library Goals and Requirements</a></li><li><a href="#machinelearningalgorithms">Machine Learning Algorithms</a></li><li><a href="#artificialneuralnetworks">Artificial Neural Networks</a></li><li><a href="#backpropagationviagradientdescent">Backpropagation via Gradient Descent</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+                            <ul><li><a href="#introduction">Introduction</a></li><li><a href="#librarygoalsandrequirements">Library Goals and Requirements</a></li><li><a href="#machinelearningalgorithms">Machine Learning Algorithms</a></li><li><a href="#artificialneuralnetworks">Artificial Neural Networks</a></li><li><a href="#backpropagationviagradientdescent">Backpropagation via Gradient Descent</a></li><li><a href="#variousoptimizing">Various Optimizing</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#appendixa:chainruleforfunctionsmappingtoandfrommultipledimensions">Appendix A: Chain Rule for functions mapping to and from multiple dimensions</a></li><li><a href="#appendixb:derivationofoptimization">Appendix B: Derivation of optimization</a></li></ul>
                         </div>
 
 
@@ -133,7 +133,106 @@ We can generalize this result to the inner layer weights and layers
 Note that \( x^{(i)} = y^{(i)} \), and so
 \begin{gather*}
     \dfrac{\partial L}{\partial x^{(i)}} = \dfrac{\partial L}{\partial y^{(i)}} = \nabla_{y^{(i)}} L
-\end{gather*}</p><h2 id="conclusion">Conclusion</h2><p></p>
+\end{gather*}</p><h2 id="variousoptimizing">Various Optimizing</h2><p>While these formulas give the gradients, there is of course optimizations which can be employed, and the first step to optimizing is to notice where optimizations can be applied.
+
+One thing to consider is that \( \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L \) and \( \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} \) show up together many times, so it would be more efficient to compute it once rather than many times. Defining \( \delta^{(n)} \) and \(\delta^{(i)} \)
+\begin{gather*}
+    \delta^{(n)} = \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L \\ \\
+    \delta^{(i)} = \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial x^{(i)}} = \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \dfrac{\partial L}{\partial y^{(i)}} = \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \nabla_{y^{(i)}}L
+\end{gather*}
+we get the following equations for the output layer
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}} = \delta^{(n)}  \left( x^{(n - 1)} \right)^T \\
+    \dfrac{\partial L}{\partial b^{(n)}} = \delta^{(n)} \\
+    \dfrac{\partial L}{\partial x^{(n - 1)}} = \left(  W^{(n)} \right)^T \delta^{(n)}
+\end{gather*}
+and for the hidden layers
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(i)}} = \delta^{(i)} \left( x^{(i - 1)} \right)^T \\
+    \dfrac{\partial L}{\partial b^{(i)}} = \delta^{(i)} \\
+    \dfrac{\partial L}{\partial x^{(i - 1)}} = \left( W^{(i)} \right)^T \delta^{(i)}
+\end{gather*}
+Since \( \dfrac{\partial L}{\partial y^{(i - 1)}} = \dfrac{\partial L}{\partial x^{(i - 1)}} \), the formula for \( \delta^{(i - 1)} \) is
+\begin{gather*}
+    \delta^{(i - 1)} = \dfrac{\partial L}{\partial y^{(i - 1)}} \dfrac{\partial y^{(i - 1)}}{\partial z^{(i - 1)}} = \left( \left( W^{(i)} \right)^T \delta^{(i)} \right)^T \dfrac{\partial y^{(i - 1)}}{\partial z^{(i - 1)}}
+\end{gather*}
+
+This reformulation is much more compact, and it opens the door for more optimization. In particular, \( \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \) is a diagonal matrix, so zeros populate all nondiagonal entries. It is unnecessary to store all those extra zeros, and it is enough to just store it as a vector, \( a_{i}'(z^{(i)}) \)
+\begin{gather*}
+    a_{i}'(z^{(i)}) = \begin{bmatrix}
+        \dfrac{\partial y^{(i)}_1}{\partial z^{(i)}_1} \\ \\
+        \cdots \\ \\
+        \dfrac{\partial y^{(i)}_{m_i}}{\partial z^{(i)}_{m_i}}
+    \end{bmatrix}
+\end{gather*}
+
+This change results in slight modifications to the existing formulas. For one, with this change, rather than going through the full matrix multiplication to evaluate \( \delta^{(i)} \), one can simply multiply the corresponding entries together.
+\begin{gather*}
+    \delta^{(i)} = a_{i}'(z^{(i)}) \odot \nabla_{y^{(i)}}L
+\end{gather*}
+The formula for \( \dfrac{\partial L}{\partial W^{(i)}} \) and \( \dfrac{\partial L}{\partial b^{(i)}} \) remains the same. The formula for \( \delta^{(i - 1)} \) becomes
+\begin{gather*}
+    \delta^{(i - 1)} = \left( \left( W^{(i)} \right)^T \delta^{(i)} \right) \odot a_{i - 1}'(z^{(i - 1)})
+\end{gather*}
+
+The rules for updating are
+\begin{gather*}
+    W^{(i)} \leftarrow W^{(i)} - \gamma \dfrac{\partial L}{\partial W^{(i)}} \\
+    b^{(i)} \leftarrow b^{(i)} - \gamma \dfrac{\partial L}{\partial b^{(i)}} \\
+\end{gather*}</p><h2 id="conclusion">Conclusion</h2><p>Artificial Neural Networks are a class of powerful structures capable of classifying data. The math behind it is simple, gradient descent to update the parameters of the model, and it serves as the basis for more complex structures.</p><h2 id="appendixa:chainruleforfunctionsmappingtoandfrommultipledimensions">Appendix A: Chain Rule for functions mapping to and from multiple dimensions</h2><p>The chain rule, while quite powerful, can also be insanely unintuitive. For example, if one was to take the chain rule for
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}} = \dfrac{\partial L}{\partial y^{(n)}} \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \dfrac{\partial z^{(n)}}{\partial W^{(n)}}
+\end{gather*}
+they immediately run into a problem. \( \dfrac{\partial L}{\partial y^{(n)}} \) has  dimension \( m_{n} \times 1\), \( \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \) has dimension \( m_{n} \times m_{n}\), and finally, \( \dfrac{\partial z^{(n)}}{\partial W^{(n)}} \) has dimension \( m_{n} \times m_{n - 1}\). Simple matrix multiplication does not work.
+
+The trick is to work backwards. First note that \( \dfrac{\partial L}{\partial W^{(n)}} \) is a matrix, meaning it can be indexed by two values, \( i \) and \( j \). Using the chain rule, we get 
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}_{i, j}} = \sum_{k, l} \left( \dfrac{\partial L}{\partial y^{(n)}_k} \dfrac{\partial y^{(n)}_k}{\partial z^{(n)}_l} \dfrac{\partial z^{(n)}_l}{\partial W^{(n)}_{i, j}} \right)
+\end{gather*}
+Let \( A =  \dfrac{\partial L}{\partial y^{(n)}} \), \( B = \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \), and \( C = \dfrac{\partial z^{(n)}}{\partial W^{(n)}} \). Since \( A \) and \( B \) are matrices, \( A_{1,k} =  \dfrac{\partial L}{\partial y^{(n)}_k} \) and \( B_{k, l} =  \dfrac{\partial y^{(n)}_k}{\partial z^{(n)}_l} \). The case of C is problematic since C is indexed by three numbers, i.e. \( C_{l, i, j} = \dfrac{\partial z^{(n)}_l}{\partial W^{(n)}_{i, j}} \). To resolve this, we must eliminate one of the indices. Recall that
+\begin{gather*}
+    z^{(n)} = W^{(n)} x^{(n - 1)} + b^{(n)}
+\end{gather*}
+That means
+\begin{gather*}
+    z^{(n)}_l = \sum_j W^{(n)}_{l, j} x^{(n - 1)}_j + b^{(n)}_l
+\end{gather*}
+and so
+\begin{gather*}
+    \dfrac{\partial z^{(n)}_l}{\partial W^{(n)}_{i, j}}
+    = \begin{cases}
+        x^{(n - 1)}_j \quad \text{if } i = l \\
+        0 \quad \text{if } i \neq l
+    \end{cases} \\ \\
+    \dfrac{\partial z^{(n)}_l}{\partial W^{(n)}_{i, j}} = \delta_{l, i} \cdot x^{(n - 1)}_j	
+\end{gather*}
+where \( \delta_{l, i} \) is the Kronecker delta. Putting together the results, we get
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}_{i, j}} = \sum_{k, l} \left( A_{1, k} B_{k, l} \delta_{l, i} \cdot x^{(n - 1)}_j \right)
+\end{gather*}
+and since \( \delta_{l, i} = 0 \) except when \( l = i \), we get
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}_{i, j}} = \sum_{k, l} \left( A_{1, k} B_{k, i} \cdot x^{(n - 1)}_j \right)
+\end{gather*} 	
+The formula which satisfies this formula for all indices is
+\begin{gather*}
+    \dfrac{\partial L}{\partial W^{(n)}} = \dfrac{\partial y^{(n)}}{\partial z^{(n)}} \nabla_{y^{(n)}}L  \left( x^{(n - 1)} \right)^T
+\end{gather*}</p><h2 id="appendixb:derivationofoptimization">Appendix B: Derivation of optimization</h2><p>To make the neural network more efficient, the formula
+\begin{gather*}
+    \delta^{(i)} = \dfrac{\partial y^{(i)}}{\partial z^{(i)}} \nabla_{y^{(i)}}L
+\end{gather*}
+was introduced. This is a matrix multiplication, and thus
+\begin{gather*}
+    \delta^{(i)}_j = \sum_{k} \dfrac{\partial y^{(i)}_k}{\partial z^{(i)}_j} \left( \nabla_{y^{(i)}}L \right)_j
+\end{gather*}
+The activation function only acts on each entry and so
+\begin{gather*}
+        \dfrac{\partial y^{(i)}_k}{\partial z^{(i)}_j} = 0 \text{ if } k \neq j
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \delta^{(i)}_j = \dfrac{\partial y^{(i)}_j}{\partial z^{(i)}_j} \left( \nabla_{y^{(i)}}L \right)_j
+\end{gather*}</p>
                     </article>
 
 

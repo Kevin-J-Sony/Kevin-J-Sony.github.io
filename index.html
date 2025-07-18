@@ -35,7 +35,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#projects">Projects</a></li>
-                    <li><a href="blog.html">Project Info</a></li>
+                    <li><a href="blog/blog.html">Notes</a></li>
 					<!-- <li><a href="#contact">Contact</a></li> -->
                 </ul>
             </div>
@@ -48,7 +48,7 @@
             <h1 class="display-4">Kevin Sony</h1>
             <p class="lead">Software Engineer</p>
             <a class="btn btn-primary btn-lg" href="#projects" role="button">View Projects</a>
-            <a class="btn btn-outline btn-lg" href="blog/blog.html" role="button" style="margin-left: 10px; background: transparent; border: 2px solid white; color: white;">Read my Articles on my Personal Projects.</a>
+            <a class="btn btn-outline btn-lg" href="blog/blog.html" role="button" style="margin-left: 10px; background: transparent; border: 2px solid white; color: white;">Read my notes on the projects.</a>
         </div>
     </section>
 
@@ -83,37 +83,82 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 40px;">
+
                 <div class="col-md-4">
                     <div class="project-card panel panel-default">
                         <div class="panel-body text-center">
                             <h4>Memory, Resource, and Task Managers</h4>
-                            <p>A series of managers implemented for Operating Systems.</p>
+                            <p>Implemented a series of managers implemented for Operating Systems.</p>
 							<p>A task manager which simulated various processes interacting with one another, communicating via pipes (and semaphores to avoid read/write collisions).</p>
 							<p>A resource manager which simulated resource allocation using Banker's Algorithm with Earliest Deadline First and Least Laxity First scheduling.</p>
 							<p>A memory manager which implements various paging policies such as Working Set, Least-Recently-Used, Least-Frequently-Used, Last-In-First-Out, and more.</p>
-                            <a href="https://github.com/Kevin-J-Sony/COSC-3360-Operating-Systems" class="btn btn-primary">Project</a>
+                            <a href="https://github.com/Kevin-J-Sony/COSC-3360-Operating-Systems" class="btn btn-primary">View Project</a>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-4">
                     <div class="project-card panel panel-default">
                         <div class="panel-body text-center">
                             <h4>Digital Image Processing</h4>
                             <p>Implemented a JPEG decoder from scratch, with Huffman decoding, dequantization, and 2D inverse cosine transform (IDCT).</p>
 							<p>Built the 2D inverse DCT (IDCT) corresponding to the 2D DCT-II used in JPEG compression</p>
-                            <a href="#" class="btn btn-primary">View Project</a>
+                            <a href="https://github.com/Kevin-J-Sony/Image_Processing" class="btn btn-primary">View Project</a>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-4">
                     <div class="project-card panel panel-default">
                         <div class="panel-body text-center">
                             <h4>Theme Park Database Website</h4>
-                            <p>Developed a website for a hypothetical theme park using Python-based HTTP servers on Azure</p>
-                            <a href="#" class="btn btn-primary">View Project</a>
+                            <p>Developed a web application with ticket booking, ride management, and visitor tracking using native Python HTTP servers deployed on Azure MySQL.</p>
+                            <p>Designed 18-table relational database schema with optimized joins and constraints, implementing cookie-based session management for visitor tracking.</p>
+                            <p>Built comprehensive backend infrastructure handling user authentication, ticket sales processing, and real-time ride management across entire system.</p>
+                            <p>Delivered semester-long project on schedule with 4-person team, presenting final application demo to 100+ computer science students.</p>
+                            <a href="https://github.com/Kevin-J-Sony/BackupForThemePark" class="btn btn-primary">View Project</a>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="project-card panel panel-default">
+                        <div class="panel-body text-center">
+                            <h4>Numerical Methods Suite</h4>
+                            <p>Implemented polynomial (Lagrange, Newton) and spline (cubic, B-splines) interpolation methods with evenly spaced and Chebyshev nodes.</p>
+                            <p>Applied Richardson extrapolation and least-squares fitting with custom basis functions for numerical interpolation.</p>
+                            <p>Developed integration methods including Gaussian quadrature, Simpson's rule, Newton-Cotes formula, and Romberg integration.</p>
+                            <p>Built ODE solvers: Euler's method, fourth-order Runge-Kutta, and Predictor-Corrector techniques.</p>
+                            <a href="https://github.com/Kevin-J-Sony/COSC-4364-Numerical-Methods" class="btn btn-primary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="project-card panel panel-default">
+                        <div class="panel-body text-center">
+                            <h4>Machine Learning Library in C</h4>
+                            <p>Developed a custom machine learning library in C with a Python wrapper for abstraction.</p>
+                            <p>Implemented artificial neural networks with fully configurable layer architecture supporting arbitrary network depths.</p>
+                            <p>Configured cross-platform build system with MSVC and GCC compiler support.</p>
+                            <a href="https://github.com/Kevin-J-Sony/Machine-Learning-Project" class="btn btn-primary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="project-card panel panel-default">
+                        <div class="panel-body text-center">
+                            <h4>Secure Socket Client-Server Application</h4>
+                            <p>Used a hybrid-encryption protocol, RSA for symmetric key exchange and AES-256 for message encryption, to achieve end-to-end encryption.</p>
+                            <p>Built a multi-threaded Java server capable of accepting 10 simultaneous clients and utilizing fresh session keys on each connection.</p>
+                            <p>Used JUnit to test encryption and decryption.</p>
+                            <a href="" class="btn btn-primary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </section>
