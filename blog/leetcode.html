@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Title - Kevin Sony Blog</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+	<link rel="stylesheet" href="articles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Kevin Sony</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#skills">Skills</a></li>
+                    <li><a href="index.html#projects">Projects</a></li>
+                    <li class="active"><a href="blog.html">Articles</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <h1>Custom ML Library</h1>
+            <div class="article-meta">
+                <i class="fa fa-calendar"></i> July 25, 2025 
+                <i class="fa fa-user"></i> Kevin Sony
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-container">
+        <div class="container">
+            <div class="row">
+                <!-- Main Content -->
+                <div class="col-md-10 col-md-offset-1">
+                    <a href="blog.html" class="back-to-blog">
+                        <i class="fa fa-arrow-left"></i> Back to Blog
+                    </a>
+                    
+                    <article class="article-content">
+                        <!-- Featured Image -->
+                        <img src="[IMAGE TO PUT]" alt="[IMAGE DESCRIPTION]" class="article-featured-image">
+                        
+                        <!-- Table of Contents -->
+                        <div class="table-of-contents">
+                            <h4><i class="fa fa-list"></i> Table of Contents</h4>
+                            <ul><li><a href="#introduction">Introduction</a></li><li><a href="#medianoftwosortedarrays">Median of Two Sorted Arrays</a></li><li><a href="#zigzagconversion">Zigzag Conversion</a></li><li><a href="#reversenodesink-group">Reverse Nodes in k-Group</a></li><li><a href="#sudokusolver">Sudoku Solver</a></li><li><a href="#firstmissingpositive">First Missing Positive</a></li><li><a href="#containerwithmostwater">Container With Most Water</a></li><li><a href="#rotatearray">Rotate Array</a></li><li><a href="#minimumsizesubarraysum">Minimum Size Subarray Sum</a></li><li><a href="#longestsubstringwithoutrepeatingcharacters">Longest Substring without Repeating Characters</a></li></ul>
+                        </div>
+
+
+                        <!-- Article Content -->
+                        
+
+<h2 id="introduction">Introduction</h2><p>This article contains all my notes on different leetcode problems, and how I arrived at the solution.</p>
+
+
+
+<h2 id="medianoftwosortedarrays">Median of Two Sorted Arrays</h2><p>Given two sorted arrays \( x \) and \( y \) of size \( m \) and \( n \) respectively, return the median of the two sorted arrays.
+
+The easiest way to solve this problem is by combining the arrays, sorting it, then finding the median.
+
+With the knowledge that the two arrays are already sorted though, the sorting method that can be employed is the final step of the merge algorithm, the merging. Keep track of two variables \( i_1 \) and \( i_2 \), which index \( x \) and \( y \) respectively. When
+\begin{gather*}
+i_1 + i_2 = \dfrac{m + n}{2}
+\end{gather*}
+we have the median. When implementing, in the case \( m + n \) is odd, the median is simply whatever value that should be located at the combined index, which is when
+\begin{gather*}
+i_1 + i_2 = \lfloor \dfrac{m + n}{2} \rfloor
+\end{gather*}
+
+In the case \( m + n \) is even, the median is the average of the lower and higher median, which is the two values located at
+
+\begin{gather*}
+i_1 + i_2 = \lfloor \dfrac{m + n}{2} \rfloor - 1\\
+i_1 + i_2 = \lfloor \dfrac{m + n}{2} \rfloor
+\end{gather*}
+
+This is what is implemented.
+
+The best solution is to implement a form of binary search.</p>
+
+
+
+<h2 id="zigzagconversion">Zigzag Conversion</h2><p>The link to the problem is <a href="https://leetcode.com/problems/zigzag-conversion/"> here </a>.
+
+To solve this problem, first transform each index of the original string into a 2D point, then transform the 2D point into another index for the new string. Let \( s \) be the length of the string, let \( n \) equal the number of rows, and let \( m = n + (n - 2) \) represent the number of elements in each "group" before going back to the starting position. The number of "groups" is \( \lceil \dfrac{s}{m} \rceil \), and the amount of elements in the last "incomplete" group is \( s \text{ mod } m \).
+
+For the 2D point \( (x, y) \), let \( x \) represent the column offset, and let \( y \) represent the row offset (so \( (0, 1) \) is 1 point down from the first element, while  \( (3, 0) \) is 3 points to the right of the first element). We 
+
+We start off with the first index \( i_1 \). The "group" it belongs to is \( a = \dfrac{i_1}{m} \), and the corresponding starting point for the 2D representation is \( (a(n - 1), 0) \). The offset is \( b = i  \text{ mod } m \). If \( b < n \), then add \( (0, b) \) to the starting point. Otherwise, add \( (0, n - 1) + (b - (n - 1), (n - 1) - b) \), which reduces to \( (b - (n - 1), 2(n - 1) - b) \)
+
+From the 2D representation, find the index of the new string, \( i_2 \) the 2D point corresponds. The simplest way to implement this would be to put all the 2D points into a data structure, then for each point, count the number of points "smaller than" it, where \( (x_1, y_1) \) is "smaller than" \( (x_2, y_2) \) if \( (x_1, y_1) \preceq (x_2, y_2) \) and \( (x_1, y_1) \neq (x_2, y_2) \). This number is \( i_2 \).
+
+This requires all the points to have been converted to a corresponding 2D point, meaning all indices must be converted first. This isn't too bad of a requirement, but still something to keep in mind.
+
+Keep an array of the number of points in each "y-value"/row. In determining \( i_2 \), sum up all the elements in the array less than the corresponding y-value. Then determine the number of elements with the same y-value but a smaller x-value. This part is much easier, since one only needs to calculate the group they are in, then which offset it is.
+
+Along the same row, in the case where  \( y = 0 \) or \( y = n - 1 \), the number of points that appears before the corresponding 2D point is \( a \). Otherwise, the number of points that appears in the same row is either \( 2a \) or \( 2a + 1 \), if \( b < n \) or not respectively. Adding it to the number of elements previously, one gets the total number of points that appear before, which is \( i_2 \).</p>
+
+
+
+<h2 id="reversenodesink-group">Reverse Nodes in k-Group</h2><p>Given a linked list, for every k elements in the list, reverse it, and if the list doesn't have a multiple of k elements, leave the ends as is. The easiest way to do this is to apply a more general reversed linked list for each of the "groups", then attach the groups back together.
+
+Specifically, split the list into \( \lceil n / k \rceil \) groups, the first \( \lfloor n / k \rfloor \) groups having \( k \) elements, and the last one being a remainder. Then reverse the linked list in the former groups. Finally, join them back together.
+
+Reversing a linked list can be done in \( O(m) \) time.
+\begin{gather*}
+A \rightarrow B \rightarrow C \rightarrow D \rightarrow E \\
+E \rightarrow D \rightarrow C \rightarrow B \rightarrow A
+\end{gather*}
+The trick is to note is that this linked
+\begin{gather*}
+E \rightarrow D \rightarrow C \rightarrow B \rightarrow A
+\end{gather*}
+and this one
+\begin{gather*}
+A \leftarrow B \leftarrow C \leftarrow D \leftarrow E
+\end{gather*}
+are equivalent. The problem then becomes making the child node point to the parent, which is not that difficult..</p>
+
+
+
+<h2 id="sudokusolver">Sudoku Solver</h2><p>This can be solved using recursion. Find an empty cell and find a valid value for this cell. If there is a valid value, fill it with that value and go to the next empty cell to repeat this process. If there isn't a valid value, then backtrack.
+
+This problem can be optimized by limiting the number of valid values at the beginning, resulting in less backtracks in general since fewer cells would have to be checked. The number of valid values can be limited by ensuring proper constraints can allow one to fill out as much of the board as possible without resorting to backtracking.</p>
+
+
+
+<h2 id="firstmissingpositive">First Missing Positive</h2><p>Given an array of integers without repeat elements, find the first positive number missing from this array.
+
+The simplest way to solve this problem is to first set all negative values of the array to \( n + 2 \), where \( n \) is the size of the array, then sort the array with a sorting algorithm like quicksort, allowing for the problem to be solved in \( O(n \log{n}) \) time complexity and \( O(1) \) space complexity. 
+
+A better way to decrease time complexity is to create a new boolean array of size \( n \), initialized to all false, then loop through the original array, setting the indices in the boolean array to be true if it is an element in the original array. Then by looping through the boolean array again, wherever the first false is encountered is the first missing positive index not found in the original array. This approach reduces the time complexity to \( O(n) \), but increases space complexity to \( O(n) \).
+
+The optimal approach is to use a variation of cycle sort. The way cycle sort works is that for a permutation of an array \( [1...n] \), represented by \( [\sigma(1)...\sigma(n)] \), one can sort this array in \( O(n) \) time. This works by a basic fact from group theory, that a permutation \( \sigma \) can be broken up into disjoint cycles. Furthermore, the order of each cycle is less than \( n \), meaning if the cycle is applied to itself for some number less than \( n \) times, then all the elements in this cycle returns to its original position. However, there is no easy way of keeping track of all the elements in the cycle. Fortunately, group theory also tells us that cycles can also be written as a product of transpositions.
+
+With all of this, all that is needed to implemented cycle sort is to loop through the array \( [\sigma(1)...\sigma(n)] \) once. At each index \( i \), there is a corresponding element \( \sigma(i) = j \) such that \( 1 \leq j \leq n \). Thus swap the contents of indices \( i \) and \( j \) so that \( \sigma(j) = j \). The element in index \( i \) is the old value of \( \sigma(j) \) which itself pointed to another index \( k \), so swap index \( i \) and \( k \). Continue this until \( \sigma(i) = i \). 
+
+The solution to this problem consists of utilizing this fact of cycle sort. We know the array has size \( n \), so there are values in the range \( [1, n] \) and values outside this range. Put each value in the range to the correct index, and if there are any missing values in the range \( [1, n] \) from the array, it will be filled up by those values outside the range. Therefore, after "sorting", the first instance where a value is not in its correct location, i.e. the index does not equal the content in the index, is the first missing positive value. If it happens that all are in their correct positions, then the first missing positive value is \( n + 1 \).</p>
+
+
+
+<h2 id="containerwithmostwater">Container With Most Water</h2><p>Given an integer array representing heights of length \( n \), given two indices, the amount of water that can be held between the two is the largest rectangle that can "fit" the bounds of both height bars and spans the distance. More specifically, it is the area between two indices \( i \) and \( j \), \( i < j \), which is \( = \min(h[i], h[j]) \cdot (j - i) \).
+
+The maximum area can be found using a greedy approach. We prove this by contradiction. Suppose, to the contrary, that for some height array, the maximum area, indicated by two indices \( L \) and \( R \), \( L < R \), cannot be reached by this approach. Then the algorithm cannot reach the two potential states:
+</p>
+<ul>
+<li>\( (L, R + 1) \), implying \( h[L] > h[R + 1] \).</li>
+<li>\( (L - 1, R) \), implying \( h[R] > h[L - 1] \).</li>
+</ul>
+<p>
+
+Regardless of the previous state, these states in turn are unreachable, since if they were reachable, then \( (L, R) \) is also reachable. These states are in turn have previous states feeding into it, states that must be unreachable, and each previous state increases the distance between the two indices. If the length of the array is \( n \), then going back \( n - L + R \) states, all these states depend are generated from \( (0, n-1) \), which is reachable, contradicting the assumption the other states are unreachable. Thus \( (L, R) \) is reachable.</p>
+
+
+
+<h2 id="rotatearray">Rotate Array</h2><p>Given an integer array <b> nums </b> of size \( n \), rotate (shift) the array to the right by \( k \) steps, where \( k \) is non-negative.
+
+The simplest solution is to create another array, copy over the contents of <b> nums </b> into the new array, then override <b> nums </b>, placing each value in its correct position. This results in a time complexity of \( O(n) \) and a space complexity of \( O(n) \).
+
+The optimal solution has a time complexity of \( O(n) \) and a space complexity of \( O(1) \), and it relies somewhat on group theory. The basic idea is to replace the element at index \( i + k \text{ mod } n \) with the "former" element at \( i \), storing the old element at \( i + k \text{ mod } n \) in a temporary variable, to replace the element at index  \( i + 2k \text{ mod } n \), and so on, until the starting index has been reached again.
+
+In the case \( n \) and \( k \) are not relatively prime, it will "skip" past some elements in the cycle. Consider the cyclic group \( Z_n \) under the addition operation. The subgroup generated by \( k \), \( H \) will have \( \dfrac{n}{a} \) elements, where \( a = (n, k) \) is the greatest common divisor of \( n \) and \( k \), and thus by Lagrange's theorem, it has \( a \) cosets.
+
+The solution simply consists of shifting each coset, "mapped" onto <b> nums </b>, internally to the next element. 
+
+The other optimal solution is to simply reverse the last \( k \) elements in-place, reverse the first \( n - k \) elements in-place, then reverse the list.</p>
+
+
+
+<h2 id="minimumsizesubarraysum">Minimum Size Subarray Sum</h2><p>Given an array of positive integers <b> nums </b> and a positive integer <b> target </b>, return the minimal length of a subarray whose sum is greater than or equal to the target. If no such subarray exists, meaning the sum of all the integers in the array is less than the target, then return a zero.
+
+The optimal solution uses a sliding window approach, resulting in a time complexity of \( O(n) \) and a space complexity of \( O(1) \). Initialize two pointers, left and right. Initialize <b> winlen </b> at an extremely large value. Move the right pointer to the right until the value of all the numbers between the pointers is greater than or equal to the target. If that isn't reached, stop and return a zero. Update the value of <b> winlen </b> to the difference between the right and left pointers. Move the left pointer to the right as long as the value of all the numbers inbetween is greater than or equal to the target and keep on updating <b> winlen </b> when a new minimum is reached. Repeat and move the right pointer over. Continue this until the right pointer points past the last element.
+
+In this traversal, the minimum window length, if it exists, will eventually be recorded. To see this, note that whatever minimum exists has a corresponding left pointer L and right pointer R. The right pointer R <em> will </em> eventually be reached, since it goes through the entire array, and once R is reached, the left pointer L follows naturally afterwards.</p>
+
+
+
+<h2 id="longestsubstringwithoutrepeatingcharacters">Longest Substring without Repeating Characters</h2><p>The problem states given a string s, find the length of the longest substring without duplicate characters.
+
+The optimal solution also uses a sliding window approach, resulting in a time complexity of \( O(n) \) and a space complexity of \( O(1) \). Initialize two pointers, left and right. Initialize <b> max </b> with a value of zero. Finally initialize a boolean array of size 128, the number of ASCII characters, and set the values to false. This boolean array will be indexed by the ASCII characters itself.
+
+Move the right pointer right until the character it points to is 0. If the right pointer points to a character that has not been seen yet, set the element corresponding to the character in the boolean array to true, indicating that it is now seen. Update <b> max </b> if the distance between the left and right pointers are greater than the current <b> max </b>. Increment the right pointer by one. If it has been seen, move the left pointer rightward, updating the elements in the boolean array corresponding to the character it passes by to false until either the left pointer reaches the right pointer, or the left pointer reaches a same character the right pointer points to.</p>
+
+
+                    </article>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>&copy; 2025 Kevin Sony. All rights reserved.</p>
+                    <div class="social-links" style="margin-top: 20px;">
+                        <a href="https://www.linkedin.com/in/kevin-sony-84625b295/"><i class="fa fa-linkedin"></i></a>
+                        <a href="https://github.com/Kevin-J-Sony"><i class="fa fa-github"></i></a>
+                        <a href="https://x.com/kevinsony2003"><i class="fa fa-twitter"></i></a>
+                        <a href="mailto:kevinsony2003@gmail.com"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Smooth scrolling for table of contents
+            $('.table-of-contents a').click(function(e) {
+                e.preventDefault();
+                var target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 100
+                    }, 500);
+                }
+            });
+
+            // Highlight current section in table of contents
+            $(window).scroll(function() {
+                var scrollDistance = $(window).scrollTop();
+                $('.article-content h2[id], .article-content h3[id]').each(function(i) {
+                    if ($(this).position().top <= scrollDistance + 150) {
+                        $('.table-of-contents a.active').removeClass('active');
+                        $('.table-of-contents a').eq(i).addClass('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

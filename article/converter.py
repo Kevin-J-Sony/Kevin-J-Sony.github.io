@@ -7,6 +7,12 @@ today = datetime.now()
 formatted_date = today.strftime("%B %d, %Y")
 
 
+def convert_itemize_block(match):
+    content = match.group(1)
+    # Replace each \item with <li>...</li>, trimming leading/trailing whitespace
+    items = re.sub(r'\\item\s*(.*?)\s*(?=\\item|$)', r'<li>\1</li>', content.strip(), flags=re.DOTALL)
+    return f"<ul>\n{items}\n</ul>"
+
 
 def main(article_filepath):
     article_fio = open(article_filepath).readlines()    
@@ -48,8 +54,16 @@ def main(article_filepath):
     
     article_content_html = ""
     for idx in range(len(paragraphs)):
+
+        paragraphs[idx] = re.sub(r'\\textbf\{(.*?)\}', r'<b> \1 </b>', paragraphs[idx])        
+        paragraphs[idx] = re.sub(r'\\textit\{(.*?)\}', r'<em> \1 </em>', paragraphs[idx])
+        paragraphs[idx] = re.sub(r'\\href\{(.*?)\}\{(.*?)\}', r'<a href="\1"> \2 </a>', paragraphs[idx])
+        paragraphs[idx] = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}', r'</p>\n<ul>\1</ul>\n<p>', paragraphs[idx], flags=re.DOTALL)
+        paragraphs[idx] = re.sub(r'\\item\s+(.*)', r'<li>\1</li>', paragraphs[idx])
+        
+        
         # get rid of the beginning and end white space
-        paragraphs[idx] = f"<h2 id=\"{h3[idx].replace(" ", "").lower()}\">{h3[idx]}</h2><p>" + paragraphs[idx].strip() + "</p>"
+        paragraphs[idx] = f"\n\n<h2 id=\"{h3[idx].replace(" ", "").lower()}\">{h3[idx]}</h2><p>" + paragraphs[idx].strip() + "</p>\n\n"
         article_content_html += paragraphs[idx]
             
     
@@ -75,4 +89,4 @@ def main(article_filepath):
 
 
 
-main("custom_ml_lib.article")
+main("leetcode.article")
